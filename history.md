@@ -102,5 +102,11 @@
 # 11/30
 
 1.  SeeProfile Query 만들기
+
     - prisma에서 findunique를 사용하는 경우 where에 들어가는 컬렁은
       prisma table 생성시 @unique 로 설정되어있어야함
+
+2.  Login 만들기
+    - user가 DB에 존재하는지 확인(client.user.findfirst({where:{username}}))
+    - 입력된 password가 DB에 저장된 db에 동일한지 확인
+      (const paswordOk = await bcrypt.compare(password, user.password))
