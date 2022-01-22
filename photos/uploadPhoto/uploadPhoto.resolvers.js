@@ -1,6 +1,7 @@
 import { GraphQLUpload } from "graphql-upload";
 import client from "../../client";
 import { protectedResolver } from "../../users/users.utils";
+import { processHashtags } from "../photos.utils";
 
 export default {
   Upload: GraphQLUpload,
@@ -9,13 +10,7 @@ export default {
       async (_, { file, caption }, { loggedInUser }) => {
         let hashtagsObj = null;
         if (caption) {
-          //parse caption
-          const hashtags = caption.match(/#[\w]+/g);
-          //get or create Hashtags
-          hashtagsObj = hashtags.map((hashtag) => ({
-            where: { hashtag },
-            create: { hashtag },
-          }));
+          hashtagsObj = processHashtags(caption);
         }
 
         return client.photo.create({

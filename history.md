@@ -283,3 +283,19 @@
 1. Hashtag Parasing(#가 붙은 단어만 추출)
    - 정규식을 이용한다.
      예시) #[\w]+
+
+# 01/22
+
+1. Hashtag 업데이트를 할 경우 기존에 연결된 hashtag와 disconnect 처리를 해줘야함
+
+   - 예제) disconnect : [] 형태로 처리해줘야함
+
+     ```
+         data: {
+            caption,
+            hashtags: {
+              disconnect: oldPhoto.hashtags,
+            },
+          },
+
+     ```

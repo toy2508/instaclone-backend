@@ -34,14 +34,6 @@ export default {
         return false;
       }
 
-      //   const exists = await client.user
-      //     .findUnique({ where: { username: loggedInUser.username } })
-      //     .following({
-      //       where: {
-      //         id,
-      //       },
-      //     });
-
       const exists = await client.user.count({
         where: {
           username: loggedInUser,
@@ -56,5 +48,6 @@ export default {
       //존재하면 length가 0이상이므로 true가 됨
       return Boolean(exists);
     },
+    photos: ({ id }) => client.user.findUnique({ where: { id } }).photos(),
   },
 };
