@@ -288,7 +288,7 @@
 
 1. Hashtag 업데이트를 할 경우 기존에 연결된 hashtag와 disconnect 처리를 해줘야함
 
-   - 예제) disconnect : [] 형태로 처리해줘야함
+   - 예제) disconnect : [ { hashtag: '#wudong' }, { hashtag: '#ramen' } ] 형태로 처리해줘야함
 
      ```
          data: {
@@ -299,3 +299,44 @@
           },
 
      ```
+
+# 02/04
+
+1. Mutation Response : resolvers를 통해서 받아오는 argument 중에 (root,args,context,info) info를
+   통해서 muation, query인지 구분하고 query인 경우 {ok:Boolea, error:String} 형태의 리턴타입이 아니여서
+   null을 리턴하도록 조건문을 추가한다.
+
+   ```
+      const query = inof.operation.operation == "query";
+      if (query) {
+        return null;
+      } else {
+        return {
+          ok: false,
+          error: "Please log in to perform this action.",
+        };
+      }
+
+   ```
+
+2. AWS S3를 통해서 Image Upload
+
+   - 매우 중요
+     post body missing, invalid content-type or json object has no keys 에러 발생의 원인은
+     : sever.js 파일에 app.use(graphqlUploadExpress()); 코드가 server.applyMiddleware({ app }); 앞에
+     있지 않아서 발생하는 문제임
+
+   * aws-sdk 설치
+   * IAM > USER > New User
+   * 신규 user 생성(액세스키 생성)
+     1. user name 입력(프로젝트와 관련된 이름)
+     2. Programmtic access 선택(액세스 키를 통해서 접근)
+     3. Attach existing policies directly(기존 정책 직접 연결)
+     4. 정책필터에서 아래 항목 설정
+        a. AmazonS3FullAccess(S3 서비스에 접근하기 위함)
+     5. 권한 경계없이 USER 사용
+   * s3 대쉬보드 접근 > 버킷 생성
+
+     1. block all public access 언체크한다(모든 사람이 접근해서 사용할 수 있기 위함)
+
+   * 업로드 코드 > shared.utils.js > uploadPhoto 참조

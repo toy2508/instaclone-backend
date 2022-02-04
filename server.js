@@ -19,10 +19,11 @@ async function startServer() {
 
   await server.start();
   const app = express();
+  app.use(graphqlUploadExpress());
   server.applyMiddleware({ app });
   app.use(logger("tiny"));
   app.use("/uploads", express.static("uploads"));
-  app.use(graphqlUploadExpress());
+
   const PORT = process.env.PORT;
   await new Promise((r) => app.listen({ port: PORT }, r));
 

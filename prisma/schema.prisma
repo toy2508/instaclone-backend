@@ -21,6 +21,7 @@ model User {
   avatar String?
   photos Photo[]
   likes Like []
+  comments Comment []
   followers User[] @relation("FollowRelation", references: [id]) //동일한 테이블에서의 연결(관계명, unique id)
   following User[] @relation("FollowRelation", references: [id])
   createAt DateTime @default(now())
@@ -35,6 +36,7 @@ model Photo {
   caption String?
   hashtags Hashtag[]
   likes Like []
+  comments Comment []
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 }
@@ -56,4 +58,15 @@ model Like {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
   @@unique([photoId, userId])
+}
+
+model Comment {
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  photo Photo @relation(fields: [photoId], references: [id])
+  payload String
+  userId Int
+  photoId Int
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
 }

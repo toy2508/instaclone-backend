@@ -4,12 +4,14 @@ import { protectedResolver } from "../../users/users.utils";
 export default {
   Mutation: {
     toggleLike: protectedResolver(async (_, { id }, { loggedInUser }) => {
+      //find the photo to set like
       const photo = await client.photo.findUnique({
         where: {
           id,
         },
       });
 
+      // if it don't find photo by id, it make error's response
       if (!photo) {
         return {
           ok: false,
@@ -17,6 +19,7 @@ export default {
         };
       }
 
+      // unique key composed by two words
       const likeWhere = {
         photoId_userId: {
           userId: loggedInUser.id,
