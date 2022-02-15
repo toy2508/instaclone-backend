@@ -24,6 +24,8 @@ model User {
   comments Comment []
   followers User[] @relation("FollowRelation", references: [id]) //동일한 테이블에서의 연결(관계명, unique id)
   following User[] @relation("FollowRelation", references: [id])
+  rooms Room[]
+  messages Message[]
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 }
@@ -67,6 +69,26 @@ model Comment {
   payload String
   userId Int
   photoId Int
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
+
+model Room {
+  id Int @id @default(autoincrement())
+  users User[]
+  messages Message[]
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
+
+model Message {
+  id Int @id @default(autoincrement())
+  payload String
+  user User @relation(fields:[userId], references: [id])
+  userId Int
+  room Room @relation(fields:[roomId], references: [id])
+  roomId Int
+  read Boolean @default(false)
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 }

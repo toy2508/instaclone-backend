@@ -335,8 +335,17 @@
      4. 정책필터에서 아래 항목 설정
         a. AmazonS3FullAccess(S3 서비스에 접근하기 위함)
      5. 권한 경계없이 USER 사용
+     6. ACLS 활성화
    * s3 대쉬보드 접근 > 버킷 생성
 
      1. block all public access 언체크한다(모든 사람이 접근해서 사용할 수 있기 위함)
 
    * 업로드 코드 > shared.utils.js > uploadPhoto 참조
+
+
+# 02/15
+
+1. Pubsub : 
+   - 설치 : npm install graphql-subscriptions subscriptions-transport-ws
+   - Apollo-server의 pubsub은 개발(교육)용으로 사용가능, 실제는 redis-pubsub을 이용해야함
+   - sever.js 설정 방법에 대해서는 참고해야할 것(별도의 셋업이 필요함) 
